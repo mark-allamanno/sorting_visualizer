@@ -17,10 +17,10 @@ public class Heap extends Algorithm {
         // If we have not formed a complete binary heap yet continue to do so
         if (!heap.isCompleteHeap())
             heap.createHeap();
-        // If we have moved an element in the heap and need to restructure it then do so
+            // If we have moved an element in the heap and need to restructure it then do so
         else if (!heap.isMaintainedHeap())
             heap.maintainHeap();
-        // Otherwise swap the root of the max heap to the last open index
+            // Otherwise swap the root of the max heap to the last open index
         else
             heap.swapRootAndPointer();
     }

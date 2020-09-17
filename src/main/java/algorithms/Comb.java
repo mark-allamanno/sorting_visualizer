@@ -44,7 +44,7 @@ public class Comb extends Algorithm {
         // If the upper bound pointer is within the bounds of the array return the normal comparison
         if (pointer + elementGap < sorting.length)
             return sorting[pointer + elementGap] < sorting[pointer];
-        // Otherwise return false as we will not do anything this iteration anyways
+            // Otherwise return false as we will not do anything this iteration anyways
         else
             return false;
     }

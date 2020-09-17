@@ -23,80 +23,80 @@ import java.util.HashMap;
 */
 public class Radix extends Algorithm {
 
-	private final HashMap<Integer, ArrayList<Integer>> radixDigits;     // A hashmap to link digits to the sorted ints on each iteration
-	private boolean isRebuilding = false;                               // A boolean to let us know if we are rebuilding the array from the counting sort
-	private int digitsPlace = 1;                                        // An int to let us know what digit place we are currently comparing
+    private final HashMap<Integer, ArrayList<Integer>> radixDigits;     // A hashmap to link digits to the sorted ints on each iteration
+    private boolean isRebuilding = false;                               // A boolean to let us know if we are rebuilding the array from the counting sort
+    private int digitsPlace = 1;                                        // An int to let us know what digit place we are currently comparing
 
-	public Radix(SimpleGUI graphics, int[] toSort) {
-		super(graphics, toSort);
-		// Initialize the Hashmap of digit places and then fill it with 0-9 as the keys and empty lists as the values
-		radixDigits = new HashMap<>();
-		for (int i = 0; i < 10; i++)
-			radixDigits.put(i, new ArrayList<>());
-	}
+    public Radix(SimpleGUI graphics, int[] toSort) {
+        super(graphics, toSort);
+        // Initialize the Hashmap of digit places and then fill it with 0-9 as the keys and empty lists as the values
+        radixDigits = new HashMap<>();
+        for (int i = 0; i < 10; i++)
+            radixDigits.put(i, new ArrayList<>());
+    }
 
-	@Override
-	public void run() {
-		super.run();
-		// If we arent rebuilding the array then fill then hashmaps with values
-		if (!isRebuilding)
-			radixFill();
-		// Else take the values from the hashmaps and insert them back into the array by digit
-		else
-			radixRebuild();
-	}
+    @Override
+    public void run() {
+        super.run();
+        // If we arent rebuilding the array then fill then hashmaps with values
+        if (!isRebuilding)
+            radixFill();
+            // Else take the values from the hashmaps and insert them back into the array by digit
+        else
+            radixRebuild();
+    }
 
-	private void radixFill() {
-		if (pointer <= sorting.length - 1) {
-			// Get the value from the original array if we arent done yet
-			int value = sorting[pointer];
-			// Then use modulus to reduce us so that the largest non zero digit is the place we are looking at
-			int remainder = value % (int) Math.pow(10, digitsPlace);
-			// Then use integer division to get the value of that digit. Check above class definition for an example
-			int digit = remainder / (int) Math.pow(10, digitsPlace - 1);
-			// Then place that value from the array with its digit and increment the pointer
-			radixDigits.get(digit).add(value);
-			pointer++;
-		} else {
-			// Else we are done filling and can now start rebuilding the array from the hashmaps
-			isRebuilding = true;
-			pointer = 0;
-		}
-	}
+    private void radixFill() {
+        if (pointer <= sorting.length - 1) {
+            // Get the value from the original array if we arent done yet
+            int value = sorting[pointer];
+            // Then use modulus to reduce us so that the largest non zero digit is the place we are looking at
+            int remainder = value % (int) Math.pow(10, digitsPlace);
+            // Then use integer division to get the value of that digit. Check above class definition for an example
+            int digit = remainder / (int) Math.pow(10, digitsPlace - 1);
+            // Then place that value from the array with its digit and increment the pointer
+            radixDigits.get(digit).add(value);
+            pointer++;
+        } else {
+            // Else we are done filling and can now start rebuilding the array from the hashmaps
+            isRebuilding = true;
+            pointer = 0;
+        }
+    }
 
-	private void radixRebuild() {
-		// Iterate over all of the hashmaps until we find one that has elements to rebuild
-		ArrayList<Integer> radixNums = null;
-		for (ArrayList<Integer> list : radixDigits.values()) {
-			if (!list.isEmpty()) {
-				radixNums = list;
-				break;
-			}
-		}
+    private void radixRebuild() {
+        // Iterate over all of the hashmaps until we find one that has elements to rebuild
+        ArrayList<Integer> radixNums = null;
+        for (ArrayList<Integer> list : radixDigits.values()) {
+            if (!list.isEmpty()) {
+                radixNums = list;
+                break;
+            }
+        }
 
-		if (radixNums == null) {
-			// If the radix nums list is non existent then all array lists are empty and thus we are done rebuilding
-			// and can move on to the next digit
-			isRebuilding = false;
-			digitsPlace++;
-			pointer = 0;
-		} else {
-			// Otherwise we take the first array element and pop it out
-			int toInsert = radixNums.get(0);
-			radixNums.remove(0);
-			// We then insert it at the pointer and increment the pointer to the next index
-			sorting[pointer] = toInsert;
-			pointer++;
-		}
-	}
+        if (radixNums == null) {
+            // If the radix nums list is non existent then all array lists are empty and thus we are done rebuilding
+            // and can move on to the next digit
+            isRebuilding = false;
+            digitsPlace++;
+            pointer = 0;
+        } else {
+            // Otherwise we take the first array element and pop it out
+            int toInsert = radixNums.get(0);
+            radixNums.remove(0);
+            // We then insert it at the pointer and increment the pointer to the next index
+            sorting[pointer] = toInsert;
+            pointer++;
+        }
+    }
 
-	@Override
-	protected boolean isArrayAltered() {
-		return isRebuilding;                // We only alter the array during a rebuild
-	}
+    @Override
+    protected boolean isArrayAltered() {
+        return isRebuilding;                // We only alter the array during a rebuild
+    }
 
-	@Override
-	protected boolean isDoneSorting() {
-		return SimpleGUI.MAX_BAR_SIZE == Math.pow(10, digitsPlace - 1);            // Place Holder
-	}
+    @Override
+    protected boolean isDoneSorting() {
+        return SimpleGUI.MAX_BAR_SIZE == Math.pow(10, digitsPlace - 1);            // Place Holder
+    }
 }

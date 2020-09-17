@@ -25,9 +25,9 @@ public class Bogo extends Algorithm {
     @Override
     public void run() {
         super.run();
-		// Shuffle the list to get a random permutation
+        // Shuffle the list to get a random permutation
         Collections.shuffle(permutation, new Random());
-		// THen insert that permutation into the original array
+        // THen insert that permutation into the original array
         for (int i = 0; i < sorting.length; i++)
             sorting[i] = permutation.get(i);
     }

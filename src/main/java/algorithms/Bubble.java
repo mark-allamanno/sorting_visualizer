@@ -21,7 +21,7 @@ public class Bubble extends Algorithm {
         // If the pointer is less than the upper bound then we increment as normal
         if (pointer < upperBound)
             pointer++;
-        // Otherwise we are at the upper bound and we must decrease the upper bound index and reset the pointer
+            // Otherwise we are at the upper bound and we must decrease the upper bound index and reset the pointer
         else {
             upperBound--;
             pointer = 0;

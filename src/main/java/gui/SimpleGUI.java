@@ -137,7 +137,6 @@ public class SimpleGUI extends Application {
 	}
 
 	private void startAlgorithm() {
-		int[] correctArray = arrayToSort.clone();
 		// Get the string of the chosen algorithm that the user chose and create a new algorithm object of that class
 		switch (algorithmChoices.getValue()) {
 			case "Bogo Sort" -> algorithm = new Bogo(this, arrayToSort);
